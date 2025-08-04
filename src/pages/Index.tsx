@@ -4,13 +4,37 @@ import { ExecutiveSummary } from "@/components/ExecutiveSummary";
 import { VulnerabilityCard } from "@/components/VulnerabilityCard";
 import { RiskAssessment } from "@/components/RiskAssessment";
 import { RemediationTimeline } from "@/components/RemediationTimeline";
+import { AffectedComponents } from "@/components/AffectedComponents";
+import { TechnicalImpact } from "@/components/TechnicalImpact";
+import { DeploymentGuidance } from "@/components/DeploymentGuidance";
+import { ComplianceImpact } from "@/components/ComplianceImpact";
+import { AttackScenarios } from "@/components/AttackScenarios";
+import { Glossary } from "@/components/Glossary";
+import { Acknowledgements } from "@/components/Acknowledgements";
+import { References } from "@/components/References";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Badge } from "@/components/ui/badge";
 import { sampleAdvisoryData } from "@/data/sampleData";
 import { Calendar, Users } from "lucide-react";
 
 const Index = () => {
-  const { metadata, vendor, executive_summary, vulnerabilities, risk_assessments, remediations } = sampleAdvisoryData;
+  const { 
+    metadata, 
+    vendor, 
+    executive_summary, 
+    affected_components,
+    vulnerabilities, 
+    risk_assessments, 
+    technical_impacts,
+    remediations,
+    deployment_guidance,
+    compliance,
+    attack_scenarios,
+    glossary,
+    acknowledgements,
+    references,
+    additional_references
+  } = sampleAdvisoryData;
 
   return (
     <div className="min-h-screen">
@@ -98,6 +122,12 @@ const Index = () => {
             </div>
           </section>
 
+          {/* Affected Components Section */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold text-foreground">Affected Components</h2>
+            <AffectedComponents components={affected_components} />
+          </section>
+
           {/* Vulnerabilities Section */}
           <section className="space-y-6">
             <h2 className="text-2xl font-bold text-foreground">Vulnerabilities</h2>
@@ -114,10 +144,62 @@ const Index = () => {
             ))}
           </section>
 
+          {/* Technical Impact Section */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold text-foreground">Technical Impact Analysis</h2>
+            <TechnicalImpact impacts={technical_impacts} />
+          </section>
+
           {/* Remediation Section */}
           <section className="space-y-6">
             <h2 className="text-2xl font-bold text-foreground">Remediation Timeline</h2>
             <RemediationTimeline remediations={remediations} />
+          </section>
+
+          {/* Deployment Guidance Section */}
+          {deployment_guidance && (
+            <section className="space-y-6">
+              <h2 className="text-2xl font-bold text-foreground">Deployment Guidance</h2>
+              <DeploymentGuidance guidance={deployment_guidance} />
+            </section>
+          )}
+
+          {/* Compliance Impact Section */}
+          {compliance && compliance.length > 0 && (
+            <section className="space-y-6">
+              <h2 className="text-2xl font-bold text-foreground">Compliance Impact</h2>
+              <ComplianceImpact compliance={compliance} />
+            </section>
+          )}
+
+          {/* Attack Scenarios Section */}
+          {attack_scenarios && attack_scenarios.length > 0 && (
+            <section className="space-y-6">
+              <h2 className="text-2xl font-bold text-foreground">Attack Scenarios</h2>
+              <AttackScenarios scenarios={attack_scenarios} />
+            </section>
+          )}
+
+          {/* Glossary Section */}
+          {glossary && glossary.length > 0 && (
+            <section className="space-y-6">
+              <h2 className="text-2xl font-bold text-foreground">Glossary</h2>
+              <Glossary terms={glossary} />
+            </section>
+          )}
+
+          {/* Acknowledgements Section */}
+          {acknowledgements && acknowledgements.length > 0 && (
+            <section className="space-y-6">
+              <h2 className="text-2xl font-bold text-foreground">Acknowledgements</h2>
+              <Acknowledgements acknowledgements={acknowledgements} />
+            </section>
+          )}
+
+          {/* References Section - Always at the end */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold text-foreground">References</h2>
+            <References references={references} additionalReferences={additional_references} />
           </section>
         </div>
       </div>
