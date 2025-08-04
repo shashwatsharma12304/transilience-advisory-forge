@@ -1,52 +1,45 @@
+import { TitlePage } from "@/components/TitlePage";
 import { Header } from "@/components/Header";
 import { ExecutiveSummary } from "@/components/ExecutiveSummary";
 import { VulnerabilityCard } from "@/components/VulnerabilityCard";
 import { RiskAssessment } from "@/components/RiskAssessment";
 import { RemediationTimeline } from "@/components/RemediationTimeline";
 import { GlassCard } from "@/components/ui/glass-card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { sampleAdvisoryData } from "@/data/sampleData";
-import { Calendar, Users, FileText, Shield, TrendingUp, AlertTriangle } from "lucide-react";
+import { Calendar, Users } from "lucide-react";
 
 const Index = () => {
   const { metadata, vendor, executive_summary, vulnerabilities, risk_assessments, remediations } = sampleAdvisoryData;
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Glassmorphic background pattern */}
-      <div className="fixed inset-0 bg-gradient-to-br from-primary/20 via-background to-primary-glow/20 pointer-events-none" />
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
-      
-      <div className="relative z-10 container mx-auto px-4 py-8 max-w-7xl">
-        <Header 
-          advisoryId={metadata.advisory_id}
-          title={metadata.title}
-          status={metadata.status}
-          classification={metadata.classification}
-        />
+    <div className="min-h-screen">
+      {/* Title Page */}
+      <TitlePage 
+        advisoryId={metadata.advisory_id}
+        title={metadata.title}
+        description={metadata.description}
+        createdDate={new Date(metadata.publication_date).toLocaleDateString()}
+        threatActors={["ShinyHunters (suspected)", "Scattered Spider (industry-wide trend, also suspected)"]}
+        classification={metadata.classification}
+      />
 
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="glass-card border-glass-border">
-            <TabsTrigger value="overview" className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
-              Overview
-            </TabsTrigger>
-            <TabsTrigger value="vulnerabilities" className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4" />
-              Vulnerabilities
-            </TabsTrigger>
-            <TabsTrigger value="risk" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              Risk Analysis
-            </TabsTrigger>
-            <TabsTrigger value="remediation" className="flex items-center gap-2">
-              <Shield className="w-4 h-4" />
-              Remediation
-            </TabsTrigger>
-          </TabsList>
+      {/* Report Content */}
+      <div className="bg-background">
+        {/* Background pattern */}
+        <div className="fixed inset-0 bg-gradient-to-br from-primary/20 via-background to-primary-glow/20 pointer-events-none" />
+        <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)] pointer-events-none" />
+        
+        <div className="relative z-10 container mx-auto px-4 py-8 max-w-7xl space-y-8">
+          <Header 
+            advisoryId={metadata.advisory_id}
+            title={metadata.title}
+            status={metadata.status}
+            classification={metadata.classification}
+          />
 
-          <TabsContent value="overview" className="space-y-6">
+          {/* Executive Summary Section */}
+          <section className="space-y-6">
             <ExecutiveSummary 
               overview={executive_summary.overview}
               keyMetrics={executive_summary.key_metrics}
@@ -103,24 +96,30 @@ const Index = () => {
                 </div>
               </GlassCard>
             </div>
-          </TabsContent>
+          </section>
 
-          <TabsContent value="vulnerabilities" className="space-y-6">
+          {/* Vulnerabilities Section */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold text-foreground">Vulnerabilities</h2>
             {vulnerabilities.map((vuln, index) => (
               <VulnerabilityCard key={index} {...vuln} />
             ))}
-          </TabsContent>
+          </section>
 
-          <TabsContent value="risk" className="space-y-6">
+          {/* Risk Analysis Section */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold text-foreground">Risk Analysis</h2>
             {risk_assessments.map((risk, index) => (
               <RiskAssessment key={index} {...risk} />
             ))}
-          </TabsContent>
+          </section>
 
-          <TabsContent value="remediation" className="space-y-6">
+          {/* Remediation Section */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold text-foreground">Remediation Timeline</h2>
             <RemediationTimeline remediations={remediations} />
-          </TabsContent>
-        </Tabs>
+          </section>
+        </div>
       </div>
     </div>
   );
