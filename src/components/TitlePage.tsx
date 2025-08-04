@@ -26,7 +26,7 @@ export const TitlePage = ({
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.1),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.05),transparent_50%)]" />
       
-      <div className="relative z-10 container mx-auto px-8 py-12 h-screen flex flex-col">
+      <div className="relative z-10 container mx-auto px-8 py-12 min-h-screen flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between mb-16">
           <div className="flex items-center gap-4">
