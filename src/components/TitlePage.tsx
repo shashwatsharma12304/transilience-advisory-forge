@@ -4,22 +4,16 @@ import { Logo } from "@/components/Logo";
 import { Clock } from "lucide-react";
 
 interface TitlePageProps {
-  advisoryId: string;
-  title: string;
-  description: string;
-  createdDate: string;
-  threatActors?: string[];
-  classification?: string;
+  data: {
+    metadata: {
+      report_id: string;
+      title: string;
+      publication_date: string;
+    };
+  };
 }
 
-export const TitlePage = ({ 
-  advisoryId, 
-  title, 
-  description, 
-  createdDate,
-  threatActors = [],
-  classification 
-}: TitlePageProps) => {
+export const TitlePage = ({ data }: TitlePageProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-primary/90 to-primary-glow relative overflow-hidden">
       {/* Background effects */}
@@ -51,11 +45,8 @@ export const TitlePage = ({
           {/* Main Title */}
           <div className="space-y-4 max-w-4xl">
             <h1 className="text-6xl font-bold text-white leading-tight">
-              {title}
+              {data.metadata.title}
             </h1>
-            <p className="text-xl text-white/80 leading-relaxed max-w-3xl mx-auto">
-              {description}
-            </p>
           </div>
         </div>
 
@@ -66,41 +57,19 @@ export const TitlePage = ({
             <GlassCard className="px-6 py-4 bg-white/10 border-white/20">
               <div className="text-center">
                 <div className="text-sm text-white/70 mb-1">REPORT ID</div>
-                <div className="text-white font-mono text-sm">{advisoryId}</div>
+                <div className="text-white font-mono text-sm">{data.metadata.report_id}</div>
               </div>
             </GlassCard>
             
             <GlassCard className="px-6 py-4 bg-white/10 border-white/20">
               <div className="text-center">
-                <div className="text-sm text-white/70 mb-1">CREATED</div>
-                <div className="text-white font-medium text-sm">{createdDate}</div>
+                <div className="text-sm text-white/70 mb-1">PUBLISHED</div>
+                <div className="text-white font-medium text-sm">
+                  {new Date(data.metadata.publication_date).toLocaleDateString()}
+                </div>
               </div>
             </GlassCard>
           </div>
-
-          {/* Threat Actor */}
-          {threatActors.length > 0 && (
-            <GlassCard className="p-4 bg-white/10 border-white/20 max-w-2xl mx-auto">
-              <div className="text-center">
-                <div className="text-sm text-white/70 mb-2">THREAT ACTOR</div>
-                <div className="text-white text-sm">
-                  {threatActors.join(", ")}
-                </div>
-              </div>
-            </GlassCard>
-          )}
-
-          {/* Classification */}
-          {classification && (
-            <div className="flex justify-center">
-              <GlassCard className="px-6 py-3 bg-white/10 border-white/20">
-                <div className="text-center">
-                  <div className="text-xs text-white/70 mb-1">CLASSIFICATION</div>
-                  <div className="text-yellow-400 font-semibold">{classification}</div>
-                </div>
-              </GlassCard>
-            </div>
-          )}
         </div>
       </div>
     </div>
