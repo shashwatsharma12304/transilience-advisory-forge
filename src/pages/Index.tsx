@@ -4,6 +4,7 @@ import { SimplifiedVulnerabilities } from "@/components/SimplifiedVulnerabilitie
 import { SimplifiedImpact } from "@/components/SimplifiedImpact";
 import { SimplifiedMitigations } from "@/components/SimplifiedMitigations";
 import { SimplifiedReferences } from "@/components/SimplifiedReferences";
+import { Footer } from "@/components/Footer";
 import { simplifiedAdvisoryData } from "@/data/simplifiedSampleData";
 
 const Index = () => {
@@ -31,6 +32,9 @@ const Index = () => {
         
         {/* References */}
         <SimplifiedReferences references={simplifiedAdvisoryData.references.references} />
+        
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );

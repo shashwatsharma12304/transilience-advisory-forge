@@ -43,75 +43,87 @@ export function SimplifiedVulnerabilities({ items }: VulnerabilitiesSectionProps
   return (
     <section className="mb-8">
       <h2 className="text-2xl font-bold mb-6 text-foreground">Vulnerabilities</h2>
-      <div className="space-y-6">
+      <div className="space-y-8">
         {items.map((vulnerability, index) => (
-          <GlassCard key={index} className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">
+          <div key={index} className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <h3 className="text-xl font-semibold text-foreground">
                   {vulnerability.cve || `Vulnerability ${index + 1}`}
                 </h3>
                 <Badge className={getSeverityColor(vulnerability.vulnerability_severity)}>
                   {vulnerability.vulnerability_severity}
                 </Badge>
+                {vulnerability.url && (
+                  <a
+                    href={vulnerability.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary-glow transition-colors"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                )}
               </div>
-              {vulnerability.url && (
-                <a
-                  href={vulnerability.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:text-primary-glow transition-colors"
-                >
-                  <ExternalLink className="h-5 w-5" />
-                </a>
-              )}
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-3 gap-6 text-sm">
               <div>
-                <h4 className="text-sm font-semibold text-foreground mb-2">Product Information</h4>
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <p><span className="font-medium">Vendor:</span> {vulnerability.vulnerable_product.vendor_name}</p>
-                  {vulnerability.vulnerable_product.vendor_product_name && (
-                    <p><span className="font-medium">Product:</span> {vulnerability.vulnerable_product.vendor_product_name}</p>
-                  )}
-                  {vulnerability.vulnerable_product.vendor_software_name && (
-                    <p><span className="font-medium">Component:</span> {vulnerability.vulnerable_product.vendor_software_name}</p>
-                  )}
-                  {vulnerability.vulnerable_product.operating_system && (
-                    <p><span className="font-medium">Platform:</span> {vulnerability.vulnerable_product.operating_system}</p>
-                  )}
-                  {vulnerability.vulnerable_product.vendor_advisory_id && (
-                    <p><span className="font-medium">Advisory ID:</span> {vulnerability.vulnerable_product.vendor_advisory_id}</p>
-                  )}
-                </div>
+                <p className="text-muted-foreground">
+                  <span className="font-medium text-foreground">Vendor:</span> {vulnerability.vulnerable_product.vendor_name}
+                </p>
+                {vulnerability.vulnerable_product.vendor_product_name && (
+                  <p className="text-muted-foreground">
+                    <span className="font-medium text-foreground">Product:</span> {vulnerability.vulnerable_product.vendor_product_name}
+                  </p>
+                )}
+                {vulnerability.vulnerable_product.vendor_software_name && (
+                  <p className="text-muted-foreground">
+                    <span className="font-medium text-foreground">Component:</span> {vulnerability.vulnerable_product.vendor_software_name}
+                  </p>
+                )}
               </div>
 
               <div>
-                <h4 className="text-sm font-semibold text-foreground mb-2">Affected Versions</h4>
-                <div className="flex flex-wrap gap-2">
+                {vulnerability.vulnerable_product.operating_system && (
+                  <p className="text-muted-foreground">
+                    <span className="font-medium text-foreground">Operating System:</span> {vulnerability.vulnerable_product.operating_system}
+                  </p>
+                )}
+                {vulnerability.vulnerable_product.vendor_advisory_id && (
+                  <p className="text-muted-foreground">
+                    <span className="font-medium text-foreground">Advisory ID:</span> {vulnerability.vulnerable_product.vendor_advisory_id}
+                  </p>
+                )}
+                <p className="text-muted-foreground">
+                  <span className="font-medium text-foreground">Created:</span> {new Date(vulnerability.created_date).toLocaleDateString()}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-muted-foreground mb-2">
+                  <span className="font-medium text-foreground">Affected Versions:</span>
+                </p>
+                <div className="flex flex-wrap gap-1">
                   {vulnerability.vulnerable_product.software_versions_readable.map((version, vIndex) => (
                     <Badge key={vIndex} variant="outline" className="text-xs">
                       {version}
                     </Badge>
                   ))}
                 </div>
-                
-                <div className="mt-4">
-                  <p className="text-sm text-muted-foreground">
-                    <span className="font-medium">Created:</span> {new Date(vulnerability.created_date).toLocaleDateString()}
-                  </p>
-                </div>
               </div>
             </div>
 
             {vulnerability.vulnerable_product.vendor_advisory_title && (
-              <div className="mt-4 pt-4 border-t border-border">
-                <h4 className="text-sm font-semibold text-foreground mb-2">Advisory Title</h4>
-                <p className="text-sm text-muted-foreground">{vulnerability.vulnerable_product.vendor_advisory_title}</p>
+              <div className="pt-3 border-t border-border">
+                <p className="text-muted-foreground">
+                  <span className="font-medium text-foreground">Advisory Title:</span> {vulnerability.vulnerable_product.vendor_advisory_title}
+                </p>
               </div>
             )}
-          </GlassCard>
+            
+            {index < items.length - 1 && <hr className="border-border mt-6" />}
+          </div>
         ))}
       </div>
     </section>

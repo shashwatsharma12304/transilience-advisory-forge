@@ -16,21 +16,18 @@ export function SimplifiedImpact({ items }: ImpactSectionProps) {
       <h2 className="text-2xl font-bold mb-6 text-foreground">Impact Assessment</h2>
       <div className="space-y-6">
         {items.map((impact, index) => (
-          <GlassCard key={index} className="p-6">
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0">
-                <AlertTriangle className="h-6 w-6 text-warning mt-1" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-foreground mb-3">
-                  {impact.cve || `Impact ${index + 1}`}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {impact.impact_description}
-                </p>
-              </div>
+          <div key={index} className="space-y-3">
+            <div className="flex items-center space-x-3">
+              <AlertTriangle className="h-5 w-5 text-warning flex-shrink-0" />
+              <h3 className="text-lg font-semibold text-foreground">
+                {impact.cve || `Impact ${index + 1}`}
+              </h3>
             </div>
-          </GlassCard>
+            <p className="text-muted-foreground leading-relaxed pl-8">
+              {impact.impact_description}
+            </p>
+            {index < items.length - 1 && <hr className="border-border mt-6" />}
+          </div>
         ))}
       </div>
     </section>
